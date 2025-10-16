@@ -23,7 +23,15 @@
 module Latch(
     input [31:0] Address,
     input [31:0] Instr,
-    output [31:0] New_Address,
-    output [31:0] New_Instr
+    input CLK,
+    output reg [31:0] New_Address,
+    output reg [31:0] New_Instr
     );
+    
+    always @(posedge CLK)
+    begin
+        New_Address = Address;
+        New_Instr = Instr;
+    end
+    
 endmodule
