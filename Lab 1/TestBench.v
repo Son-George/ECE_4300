@@ -33,7 +33,7 @@ module TestBench(
     
     Adder add1 (.Instr(pc_out), .New_Instr(adder_out));
     
-    Instr_Mem instr1 (.Address(pc_out), .clk(clk), .Instr(instr_out));
+    Instr_Mem instr1 (.Address(pc_out), .CLK(clk), .Instr(instr_out));
     
     Latch L1 (.Address(adder_out), .Instr(instr_out), .CLK(clk), .New_Address(if_id_instr), New_Instr(if_id_addrs));
     
