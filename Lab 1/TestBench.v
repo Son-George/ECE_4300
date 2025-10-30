@@ -21,11 +21,11 @@
 
 
 module TestBench(
-    input clk, PCSrc,
-    input [31:0] ex_mem,
-    output wire [31:0] if_id_instr, if_id_addrs
+    input wire clk, PCSrc,
+    input wire [31:0] ex_mem,
+    output wire [31:0] id_instr, id_addrs
     );
-    wire [31:0] mux_out, pc_out, instr_out, adder_out, instr_out;
+    wire [31:0] mux_out, pc_out, instr_out, adder_out, mem_out;
     
     Mux m1 (.Increment(adder_out), .PC(ex_mem), .New_Address(mux_out), .PC_Select(PCSrc));
     
@@ -33,8 +33,8 @@ module TestBench(
     
     Adder add1 (.Instr(pc_out), .New_Instr(adder_out));
     
-    Instr_Mem instr1 (.Address(pc_out), .CLK(clk), .Instr(instr_out));
+    Instr_Mem instr1 (.Address(pc_out), .CLK(clk), .Instr(mem_out));
     
-    Latch L1 (.Address(adder_out), .Instr(instr_out), .CLK(clk), .New_Address(if_id_instr), New_Instr(if_id_addrs));
+    Latch L1 (.Address(adder_out), .Instr(instr_out), .CLK(clk), .New_Address(id_instr), .New_Instr(id_addrs));
     
 endmodule
