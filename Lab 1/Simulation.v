@@ -26,7 +26,7 @@ module Simulation();
     reg [31:0] ExMem;
     wire [31:0] Instr, Address;
     
-    Test_bench sim (.clk(clk), .PCSrc(PCSrc), .ex_mem(EXMem), .if_id_instr(Instr), .if_id_addrs(Address));
+    TestBench sim (.clk(clk), .PCSrc(PCSrc), .ex_mem(EXMem), .if_id_instr(Instr), .if_id_addrs(Address));
     
     // creates simulation clock
     initial forever #5 clk = ~clk;
