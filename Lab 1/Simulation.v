@@ -22,23 +22,47 @@
 
 module Simulation();
 
-    reg PCSrc, clk;
-    reg [31:0] ExMem;
-    wire [31:0] Instr, Address;
+reg clk, rst;
+    reg [31:0] ex_mem_npc; //branch addy
+    reg ex_mem_pc_src; //cntrl signal for branch (0 = seq, 1 = branch)
+    wire [31:0] Instr, //instr output from latch
+                Address; //pc + 4 from latch
     
-    TestBench sim (.clk(clk), .PCSrc(PCSrc), .ex_mem(EXMem), .if_id_instr(Instr), .if_id_addrs(Address));
+    TestBench sim (.clk(clk), .rst(rst),
+                   .ex_mem_pc_src(ex_mem_pc_src), 
+                   .ex_mem_npc(ex_mem_npc), 
+                   .id_instr(Instr), 
+                   .id_addr(Address));
     
     // creates simulation clock
     initial forever #5 clk = ~clk;
     
     initial begin
-    PCSrc = 0;
-    ExMem = 32'h0000FFFF;
-    #8
-    PCSrc = 1'b1;
-    #5
-    PCSrc = 1'b0;
-    #30
-    ExMem = 32'h0000FFFF;
+    clk = 0; rst = 1;
+    ex_mem_pc_src = 0;
+    ex_mem_npc = 32'h00000000;
+    
+    //release rst after delay
+    #10 rst = 0;
+    
+    //normal pc increment
+    #40;
+    
+    //branch to new addy
+    ex_mem_pc_src = 1;
+    ex_mem_npc = 32'h00000004;
+    #10 ex_mem_pc_src = 0;
+    
+    //continue seq flow
+    #40;
+    
+//    //branch to new addy
+//    ex_mem_pc_src = 1;
+//    ex_mem_npc = 32'h00000080;
+//    #10 ex_mem_pc_src = 0;
+    
+    #60;
+    $stop;
+    
     end
 endmodule
