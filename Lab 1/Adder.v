@@ -21,11 +21,12 @@
 
 
 module Adder(
-    input [31:0] Instr,
-    output reg [31:0] New_Instr
+    input [31:0] pcin, //current program counter value
+    output reg [31:0] pcout // program counter value + 4 
     );
     
     always @(*)
-        New_Instr = Instr + 1'b1;
-        
+    //add 4 to currrent pc for sequential instr addy
+    //32 bit or 4 byte inst.
+        pcout = pcin + 32'd4; //32 bit decimal 4
 endmodule
