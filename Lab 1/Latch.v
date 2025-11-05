@@ -20,18 +20,27 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
+
+
 module Latch(
-    input [31:0] Address,
-    input [31:0] Instr,
-    input CLK,
-    output reg [31:0] New_Address,
-    output reg [31:0] New_Instr
+    input [31:0] pc_in, //program counter +4
+    input [31:0] Instr, //instruction from memory
+    input wire clk,
+    input wire rst,
+    output reg [31:0] pc_out, //new addy program counter +4 to ID stage
+    output reg [31:0] instr_out //data, instrcution to ID stage
     );
     
-    always @(posedge CLK)
+    always @(posedge clk or posedge rst)
     begin
-        New_Address = Address;
-        New_Instr = Instr;
+    if (rst) begin
+        pc_out <= 32'd0;
+        instr_out<=32'd0;
+    end else begin
+        pc_out <= pc_in; //store PC+4
+        instr_out <= Instr; //store inst.
     end
+    
+end
     
 endmodule
