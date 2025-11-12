@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 10/16/2025 04:21:25 PM
+// Create Date: 10/30/2025 02:06:43 PM
 // Design Name: 
-// Module Name: Latch
+// Module Name: TestBench
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -20,27 +20,35 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-
-
-module Latch(
-    input [31:0] pc_in, //program counter +4
-    input [31:0] Instr, //instruction from memory
-    input wire clk,
-    input wire rst,
-    output reg [31:0] pc_out, //new addy program counter +4 to ID stage
-    output reg [31:0] instr_out //data, instrcution to ID stage
+module TestBench(
+    input wire clk, rst, ex_mem_pc_src,
+    input wire [31:0] ex_mem_npc,
+    output wire [31:0] id_instr, id_addr
     );
-    
-    always @(posedge clk or posedge rst)
-    begin
-    if (rst) begin
-        pc_out <= 32'd0;
-        instr_out<=32'd0;
-    end else begin
-        pc_out <= pc_in; //store PC+4
-        instr_out <= Instr; //store inst.
-    end
-    
-end
-    
+    wire [31:0] mux_out, pc_out, instr_out, adder_out, mem_out;
+
+    Mux m1 (.a_true(ex_mem_npc),
+            .b_false(adder_out), 
+            .y(mux_out), 
+            .PC_Select(ex_mem_pc_src));
+
+    PC pc1 (.PC_in(mux_out),
+            .clk(clk),
+            .rst(rst),
+            .PC_out(pc_out));
+
+    Adder add1 (.pcin(pc_out), 
+                .pcout(adder_out));
+
+    Instr_Mem instr1 (.addr(pc_out), 
+                      .clk(clk),
+                      .Instr(mem_out));
+
+    Latch L1 (.pc_in(adder_out), 
+              .Instr(mem_out), 
+              .clk(clk),
+              .rst(rst) ,
+              .pc_out(id_instr), 
+              .instr_out(id_addr));
+
 endmodule
