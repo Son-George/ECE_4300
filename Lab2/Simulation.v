@@ -78,6 +78,11 @@ Main sim (
         NPC_in = 32'h00421020;
         instr_IF_ID = 32'h00000006;
         
+        RegWrite = 1'b0;
+        
+        #4
+        $display("Finish");
+        $finish;
     end
         
         
