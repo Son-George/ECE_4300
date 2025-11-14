@@ -47,7 +47,7 @@ module Control(
             BEQ: begin
                 WB = 2'b10;
                 M = 3'b000;
-                out = 4'b1100; 
+                out = 4'b0100; 
             end
             
             NOP: begin
@@ -64,4 +64,5 @@ module Control(
             end
     end
     
+
 endmodule
