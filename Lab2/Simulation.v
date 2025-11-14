@@ -75,8 +75,8 @@ Main sim (
         RegWrite = 1'b1;
         
         #4 // ADD Sv0, Sv0, Sv0
-        NPC_in = 32'h00421020;
-        instr_IF_ID = 32'h00000006;
+//        NPC_in = 32'h00421020;
+//        instr_IF_ID = 32'h00000006;
         
         RegWrite = 1'b0;
         
@@ -85,8 +85,5 @@ Main sim (
         $finish;
     end
         
-        
-        
-    
     
 endmodule
