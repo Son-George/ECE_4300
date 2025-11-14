@@ -25,7 +25,7 @@ module Main(
     .reg1(instr_IF_ID[25:21]),
     .reg2(instr_IF_ID[20:16]),
     .WR(WR),
-    .WB(WB), // write register, write Data
+    .WB(WD), // write register, write Data
     .clk(clk),
     .rst(rst),
     .Write_Reg(RegWrite),
